@@ -1,4 +1,7 @@
 import {createElementWithAttribute} from "./utils.js"
+import {getAddProjectButtonDiv, addEventListenerToAddProjectButtonDiv} from "./add-project-button-sidebar-div-dom";
+import {appendToSidebar} from "./sidebar.js"
+export {createAddProjectMenuDiv, getAddProjectMenuDiv, addEventListenerToCancelButton};
 
 const addProjectMenuDiv = createElementWithAttribute("div","id", "add-project-menu-div");
 const addProjectForm = createElementWithAttribute("form","id", "add-project-form");
@@ -14,6 +17,11 @@ function loadTextToButtons() {
     addProjectMenuCancelButton.innerHTML = "Cancel";
 };
 
+function addClassButtons() {
+    addProjectMenuAddButton.classList.add("add-project-menu-button");
+    addProjectMenuCancelButton.classList.add("add-project-menu-button");
+};
+
 function loadButtonsToDiv() {
   addProjectMenuButtonsDiv.appendChild(addProjectMenuAddButton);
   addProjectMenuButtonsDiv.appendChild(addProjectMenuCancelButton);
@@ -25,6 +33,8 @@ function addPropertiesToInput() {
     projectNameInput.setAttribute("id", "project-name-input");
     projectNameInput.setAttribute("min-length","4");
     projectNameInput.required = true;
+    projectNameInput.placeholder = "Your project name...";
+    projectNameInput.autofocus = true;
 };
 
 function addPropertiesToLabel() {
@@ -45,12 +55,29 @@ function loadFormToAddProjectMenuDiv() {
     addProjectMenuDiv.appendChild(addProjectForm);
 }
 
-function createaddProjectMenuDiv() {
+function createAddProjectMenuDiv() {
     loadTextToButtons();
+    addClassButtons();
     loadButtonsToDiv();
     addPropertiesToInput();
     addPropertiesToLabel();
     createProjectNameInputDiv();
     createAddProjectForm();
     loadFormToAddProjectMenuDiv();
+
+    return addProjectMenuDiv;
+}
+
+function getAddProjectMenuDiv() {
+    return addProjectMenuDiv;
+}
+
+function addEventListenerToCancelButton() {
+    addProjectMenuCancelButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        addProjectMenuDiv.remove();
+        const addProjectButtonDiv = getAddProjectButtonDiv();
+        appendToSidebar(addProjectButtonDiv);
+        addEventListenerToAddProjectButtonDiv();
+    });
 }

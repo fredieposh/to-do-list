@@ -1,5 +1,8 @@
 import {createElementWithAttribute} from "./utils.js"
-export {createAddProjectButtonDiv};
+import {createAddProjectMenuDiv, getAddProjectMenuDiv} from "./add-project-menu";
+import {appendToSidebar} from "./sidebar.js";
+import {addEventListenerToCancelButton} from "./add-project-menu.js";
+export {createAddProjectButtonDiv, getAddProjectButtonDiv, addEventListenerToAddProjectButtonDiv};
 
 const addProjectButtonDiv = createElementWithAttribute("div", "id", "add-project-button-div");
 const addProjectButtonTextDiv = createElementWithAttribute("div", "id", "add-project-button-text-div");
@@ -22,4 +25,17 @@ function createAddProjectButtonDiv() {
     addProjectButtonDiv.appendChild(addProjectButtonTextDiv);
 
     return addProjectButtonDiv;
+};
+
+function getAddProjectButtonDiv() {
+    return addProjectButtonDiv;
+};
+
+function addEventListenerToAddProjectButtonDiv() {
+    addProjectButtonDiv.addEventListener("click",() => {
+        addProjectButtonDiv.remove();
+        const addProjectMenuDiv = getAddProjectMenuDiv();
+        appendToSidebar(addProjectMenuDiv);
+        addEventListenerToCancelButton();
+    });
 };
