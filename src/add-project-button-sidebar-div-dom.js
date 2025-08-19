@@ -1,7 +1,6 @@
 import {createElementWithAttribute} from "./utils.js"
-import {createAddProjectMenuDiv, getAddProjectMenuDiv} from "./add-project-menu";
 import {appendToSidebar} from "./sidebar.js";
-import {addEventListenerToCancelButton} from "./add-project-menu.js";
+import {addEventListenerToCancelButton, addEventListenerToForm, getAddProjectMenuDiv, clearProjectNameInputValue, focusProjectNameInputValue} from "./add-project-menu.js";
 export {createAddProjectButtonDiv, getAddProjectButtonDiv, addEventListenerToAddProjectButtonDiv};
 
 const addProjectButtonDiv = createElementWithAttribute("div", "id", "add-project-button-div");
@@ -35,7 +34,10 @@ function addEventListenerToAddProjectButtonDiv() {
     addProjectButtonDiv.addEventListener("click",() => {
         addProjectButtonDiv.remove();
         const addProjectMenuDiv = getAddProjectMenuDiv();
+        clearProjectNameInputValue(); 
+        focusProjectNameInputValue();
         appendToSidebar(addProjectMenuDiv);
         addEventListenerToCancelButton();
+        addEventListenerToForm();
     });
 };

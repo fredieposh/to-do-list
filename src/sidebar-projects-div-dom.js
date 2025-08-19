@@ -48,19 +48,41 @@ function createProjectEntry(projectName) {
     newProjectElement.appendChild(newProjectElementNameDiv);
     newProjectElement.appendChild(newProjectElementRemoveButtonDiv);
 
-    return newProjectElement;
+    return {newProjectElement, newProjectElementRemoveButton};
+};
+
+function addEventListenerToRemoveButtonDiv(RemoveButtonDiv, projectName) {
+    RemoveButtonDiv.addEventListener("click", (e) => {
+        SidebarProjectsDivLogic.removeProject(projectName);
+        e.target.parentNode.parentNode.remove()
+    });
+};
+
+function addEventListenerToProjectDiv(projectDiv) {
+    projectDiv.addEventListener("click", (e) => {
+        const projectDivList = document.querySelectorAll(".project-div");
+        projectDivList.forEach((div) => {
+            if (div.classList.contains("project-div-selected")) {
+                div.classList.remove("project-div-selected");
+            };
+        });
+        projectDiv.classList.add("project-div-selected");
+    });
 };
 
 function addProjectToList(projectName) {
     if (SidebarProjectsDivLogic.projectList.length > 0) {
         for (const project of SidebarProjectsDivLogic.projectList) {
-        if (projectName === project) {
-            return;
+            if (projectName === project) {
+                return;
+            };
         };
     };
-    };
 
-    const newProject = createProjectEntry(projectName);
-    projectsContainerDiv.appendChild(newProject);
-    SidebarProjectsDivLogic.addProject(newProject);
+    const {newProjectElement, newProjectElementRemoveButton} = createProjectEntry(projectName);
+    projectsContainerDiv.appendChild(newProjectElement);
+
+    SidebarProjectsDivLogic.addProject(projectName);
+    addEventListenerToRemoveButtonDiv(newProjectElementRemoveButton, projectName);
+    addEventListenerToProjectDiv(newProjectElement);
 };

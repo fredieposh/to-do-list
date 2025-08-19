@@ -2,8 +2,8 @@ const sidebar = document.querySelector("#sidebar");
 
 import {addProjectToList, getProjectsDiv, addProjectsHeaderDivToProjectsDiv, addProjectsContainerDivToProjectsDiv} from "./sidebar-projects-div-dom";
 import {createAddProjectButtonDiv, addEventListenerToAddProjectButtonDiv} from "./add-project-button-sidebar-div-dom";
-import {createAddProjectMenuDiv, getAddProjectMenuDiv} from "./add-project-menu";
-import {createaddProjectMenuDiv} from "./add-project-menu";
+import {createAddProjectMenuDiv} from "./add-project-menu";
+
 
 export {loadSidebar, appendToSidebar};
 
@@ -13,13 +13,13 @@ function appendToSidebar(element) {
 
 function loadSidebar() {
     const projectsDiv = getProjectsDiv();
+    const AddProjectButtonDiv = createAddProjectButtonDiv();
+    
     addProjectsHeaderDivToProjectsDiv();
     addProjectsContainerDivToProjectsDiv();
-    addProjectToList("test");
-    const AddProjectButtonDiv = createAddProjectButtonDiv();
+    addProjectToList("Today");
     createAddProjectMenuDiv();
-
-    sidebar.appendChild(projectsDiv);
-    sidebar.appendChild(AddProjectButtonDiv);
+    appendToSidebar(projectsDiv);
+    appendToSidebar(AddProjectButtonDiv);
     addEventListenerToAddProjectButtonDiv();
 };

@@ -72,13 +72,24 @@ flex-direction: column;
     background-color: var(--darker);
 }
 
+.project-div.project-div-selected {
+    padding:0.5rem 0.5rem;
+    font-size: 1rem;
+    display: flex;
+    margin-right: 1rem;
+    border-radius: 5px;
+    align-items: center;
+    font-weight: 800;
+    background-color: white;
+    color: rgb(255, 98, 0);;
+}
+
 .project-div:hover button{
     opacity: 1;
 }
 
 .project-name {
     font-size: 0.9rem;
-    font-weight: normal;
 }
 
 .project-remove-button-div {

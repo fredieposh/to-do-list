@@ -1,7 +1,8 @@
 import {createElementWithAttribute} from "./utils.js"
 import {getAddProjectButtonDiv, addEventListenerToAddProjectButtonDiv} from "./add-project-button-sidebar-div-dom";
+import {addProjectToList} from "./sidebar-projects-div-dom.js"
 import {appendToSidebar} from "./sidebar.js"
-export {createAddProjectMenuDiv, getAddProjectMenuDiv, addEventListenerToCancelButton};
+export {createAddProjectMenuDiv, getAddProjectMenuDiv, addEventListenerToCancelButton, addEventListenerToForm, clearProjectNameInputValue, focusProjectNameInputValue};
 
 const addProjectMenuDiv = createElementWithAttribute("div","id", "add-project-menu-div");
 const addProjectForm = createElementWithAttribute("form","id", "add-project-form");
@@ -72,9 +73,37 @@ function getAddProjectMenuDiv() {
     return addProjectMenuDiv;
 }
 
+function getProjectNameInputValue() {
+    return projectNameInput.value;
+}
+
+function clearProjectNameInputValue() {
+    projectNameInput.value = null;
+}
+
+function focusProjectNameInputValue() {
+    projectNameInput.autofocus = true;
+}
+
+projectNameInput.autofocus = true;
+
 function addEventListenerToCancelButton() {
     addProjectMenuCancelButton.addEventListener("click", (e) => {
         e.preventDefault();
+        addProjectMenuDiv.remove();
+        const addProjectButtonDiv = getAddProjectButtonDiv();
+        appendToSidebar(addProjectButtonDiv);
+        addEventListenerToAddProjectButtonDiv();
+    });
+}
+
+function addEventListenerToForm() {
+    addProjectForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const formInputValue = getProjectNameInputValue();
+        addProjectToList(formInputValue);
+
         addProjectMenuDiv.remove();
         const addProjectButtonDiv = getAddProjectButtonDiv();
         appendToSidebar(addProjectButtonDiv);
