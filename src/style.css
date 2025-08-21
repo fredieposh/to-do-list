@@ -187,3 +187,19 @@ flex-direction: column;
 #content {
     flex: 1;
 }
+
+#content {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    gap: 3rem;
+}
+
+#content-header-div {
+    font-size: 1.4rem;
+    padding-left: 4rem;
+}
+
+#content-tasks-container {
+    flex: 1;
+}
