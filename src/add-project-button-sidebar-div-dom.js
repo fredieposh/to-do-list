@@ -30,14 +30,17 @@ function getAddProjectButtonDiv() {
     return addProjectButtonDiv;
 };
 
-function addEventListenerToAddProjectButtonDiv() {
-    addProjectButtonDiv.addEventListener("click",() => {
+function handleButtonClick() {
         addProjectButtonDiv.remove();
+        addProjectButtonDiv.removeEventListener("click", handleButtonClick);
         const addProjectMenuDiv = getAddProjectMenuDiv();
         clearProjectNameInputValue(); 
         focusProjectNameInputValue();
         appendToSidebar(addProjectMenuDiv);
         addEventListenerToCancelButton();
         addEventListenerToForm();
-    });
+}
+
+function addEventListenerToAddProjectButtonDiv() {
+    addProjectButtonDiv.addEventListener("click",handleButtonClick);
 };

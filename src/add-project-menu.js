@@ -1,7 +1,8 @@
-import {createElementWithAttribute} from "./utils.js"
+import {createElementWithAttribute} from "./utils.js";
 import {getAddProjectButtonDiv, addEventListenerToAddProjectButtonDiv} from "./add-project-button-sidebar-div-dom";
-import {addProjectToList} from "./sidebar-projects-div-dom.js"
-import {appendToSidebar} from "./sidebar.js"
+import {addProjectToList} from "./sidebar-projects-div-dom.js";
+import {createProjectTasksList} from "./tasks-logic.js";
+import {appendToSidebar} from "./sidebar.js";
 export {createAddProjectMenuDiv, getAddProjectMenuDiv, addEventListenerToCancelButton, addEventListenerToForm, clearProjectNameInputValue, focusProjectNameInputValue};
 
 const addProjectMenuDiv = createElementWithAttribute("div","id", "add-project-menu-div");
@@ -85,28 +86,32 @@ function focusProjectNameInputValue() {
     projectNameInput.autofocus = true;
 }
 
-projectNameInput.autofocus = true;
-
-function addEventListenerToCancelButton() {
-    addProjectMenuCancelButton.addEventListener("click", (e) => {
+function handleCancelButtonClick(e) {
         e.preventDefault();
+        addProjectMenuCancelButton.removeEventListener("click", handleCancelButtonClick);
         addProjectMenuDiv.remove();
         const addProjectButtonDiv = getAddProjectButtonDiv();
+        focusProjectNameInputValue();
         appendToSidebar(addProjectButtonDiv);
         addEventListenerToAddProjectButtonDiv();
-    });
+}
+
+function handleFormSubmition(e) {
+        e.preventDefault();
+        const formInputValue = getProjectNameInputValue();
+        addProjectToList(formInputValue);
+        addProjectForm.removeEventListener("submit", handleFormSubmition);
+        addProjectMenuDiv.remove();
+        const addProjectButtonDiv = getAddProjectButtonDiv();
+        focusProjectNameInputValue();
+        appendToSidebar(addProjectButtonDiv);
+        addEventListenerToAddProjectButtonDiv();
+}
+
+function addEventListenerToCancelButton() {
+    addProjectMenuCancelButton.addEventListener("click", handleCancelButtonClick);
 }
 
 function addEventListenerToForm() {
-    addProjectForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        
-        const formInputValue = getProjectNameInputValue();
-        addProjectToList(formInputValue);
-
-        addProjectMenuDiv.remove();
-        const addProjectButtonDiv = getAddProjectButtonDiv();
-        appendToSidebar(addProjectButtonDiv);
-        addEventListenerToAddProjectButtonDiv();
-    });
+    addProjectForm.addEventListener("submit", handleFormSubmition);
 }

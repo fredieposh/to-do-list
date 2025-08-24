@@ -1,5 +1,9 @@
 import {createElementWithAttribute} from "./utils.js"
-export{setChosenProject, populateContentDiv, getContentDiv, getChosenProject};
+import {getTaskButtonDiv, createTaskButtonDiv, addEventListenerToAddTasktButton} from "./add-tasks-button-dom.js";
+import {createAddTaskMenuDiv} from "./add-tasks-menu-dom.js"
+import {createTaskContainerDiv} from "./tasks-container-dom.js";
+
+export{setChosenProject, populateContentDiv, getContentDiv, getChosenProject, setContentHeaderText};
 
 const contentDiv = document.querySelector("#content");
 let chosenProject;
@@ -24,11 +28,28 @@ function loadHeaderTextToHeaderDiv() {
     contentHeaderDiv.appendChild(contentHeaderText);
 };
 
+function loadATasksContainerDivToTasksContainer() {
+    const tasksDiv = createTaskContainerDiv();
+    contentTasksContainerDiv.appendChild(tasksDiv);
+}
+
+function loadAddTasksButtonDivToTasksContainer() {
+    const addTasksButtonDiv = createTaskButtonDiv();
+    contentTasksContainerDiv.appendChild(addTasksButtonDiv);
+    addEventListenerToAddTasktButton();
+}
+
 function populateContentDiv() {
     setContentHeaderText();
     loadHeaderTextToHeaderDiv();
+    loadATasksContainerDivToTasksContainer();
+    loadAddTasksButtonDivToTasksContainer();
+    createAddTaskMenuDiv();
+    
     contentDiv.appendChild(contentHeaderDiv);
     contentDiv.appendChild(contentTasksContainerDiv);
+    
+
 };
 
 function getContentDiv() {

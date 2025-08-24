@@ -1,4 +1,5 @@
 import {createElementWithAttribute} from "./utils.js";
+import {setChosenProject, setContentHeaderText} from "./content-dom.js"
 import * as SidebarProjectsDivLogic from "./sidebar-projects-div-logic.js";
 
 export {addProjectToList, getProjectsDiv, addProjectsHeaderDivToProjectsDiv, addProjectsContainerDivToProjectsDiv};
@@ -59,14 +60,36 @@ function addEventListenerToRemoveButtonDiv(RemoveButtonDiv, projectName) {
 };
 
 function addEventListenerToProjectDiv(projectDiv) {
-    projectDiv.addEventListener("click", (e) => {
-        const projectDivList = document.querySelectorAll(".project-div");
-        projectDivList.forEach((div) => {
-            if (div.classList.contains("project-div-selected")) {
-                div.classList.remove("project-div-selected");
-            };
-        });
+    projectDiv.addEventListener("click", () => {
+        removeSelectedClassFromProjectDiv();
         projectDiv.classList.add("project-div-selected");
+        handleProjectChoose();
+    });
+};
+
+function handleProjectChoose() {
+    const selectedProjectName = getSelectedProjectName();
+    setChosenProject(selectedProjectName);
+    setContentHeaderText(selectedProjectName);
+}
+
+function getSelectedProjectName() {
+    console.log(document.querySelector(".project-div-selected .project-name"));
+    const selectedProjectName = document.querySelector(".project-div-selected .project-name").innerHTML;
+    if (selectedProjectName) {
+        return selectedProjectName;
+    }
+
+    selectedProjectName = "No Project"
+    return selectedProjectName;
+}
+
+function removeSelectedClassFromProjectDiv() {
+    const projectDivList = document.querySelectorAll(".project-div");
+    projectDivList.forEach((div) => {
+        if (div.classList.contains("project-div-selected")) {
+            div.classList.remove("project-div-selected");
+        };
     });
 };
 
@@ -79,10 +102,14 @@ function addProjectToList(projectName) {
         };
     };
 
-    const {newProjectElement, newProjectElementRemoveButton} = createProjectEntry(projectName);
-    projectsContainerDiv.appendChild(newProjectElement);
 
+    const {newProjectElement, newProjectElementRemoveButton} = createProjectEntry(projectName);
+    removeSelectedClassFromProjectDiv();
+    newProjectElement.classList.add("project-div-selected");
+    projectsContainerDiv.appendChild(newProjectElement);
     SidebarProjectsDivLogic.addProject(projectName);
     addEventListenerToRemoveButtonDiv(newProjectElementRemoveButton, projectName);
     addEventListenerToProjectDiv(newProjectElement);
+
+    handleProjectChoose();
 };

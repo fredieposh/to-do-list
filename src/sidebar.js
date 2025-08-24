@@ -15,13 +15,13 @@ function appendToSidebar(element) {
 function loadSidebar() {
     const projectsDiv = getProjectsDiv();
     const AddProjectButtonDiv = createAddProjectButtonDiv();
+    appendToSidebar(projectsDiv);
     
     addProjectsHeaderDivToProjectsDiv();
     addProjectsContainerDivToProjectsDiv();
     addProjectToList("Today");
     setChosenProject("Today");
     createAddProjectMenuDiv();
-    appendToSidebar(projectsDiv);
     appendToSidebar(AddProjectButtonDiv);
     addEventListenerToAddProjectButtonDiv();
 };
