@@ -75,7 +75,6 @@ function handleProjectChoose() {
 }
 
 function getSelectedProjectName() {
-    console.log(document.querySelector(".project-div-selected .project-name"));
     const selectedProjectName = document.querySelector(".project-div-selected .project-name").innerHTML;
     if (selectedProjectName) {
         return selectedProjectName;

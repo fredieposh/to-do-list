@@ -1,5 +1,7 @@
 import {createElementWithAttribute} from "./utils.js";
 import {Task, addTaskToProjectTasksList} from "./tasks-logic.js"
+import {appendTaskToaskContainerDiv} from "./tasks-container-dom.js"
+import {createNewTaskDom, addTaskDomToProjectTasksDomList} from "./tasks-dom.js";
 import {getSelectedProjectName} from "./sidebar-projects-div-dom.js"
 import {getTaskButtonDiv, appendToAddTaskButtonDiv, getTaskButton, addEventListenerToAddTasktButton} from "./add-tasks-button-dom.js";
 
@@ -221,9 +223,13 @@ function handleFormSubmmition(e) {
         const task = new Task(selectedProjectName,taskName);
         task.setTaskDesc(taskDesc);
         task.setTaskDueDate(taskDate);
-        task.setTaskPrior(taskRadio);
-        console.log(task);
+        task.setTaskPrior(taskRadio);        
         addTaskToProjectTasksList(selectedProjectName, task);
+
+        const taskDom = createNewTaskDom(task);
+        addTaskDomToProjectTasksDomList(selectedProjectName, taskDom);
+        appendTaskToaskContainerDiv(taskDom);
+
         addTaskMenuDiv.remove();
         clearInputValue(taskNameInput);
         clearInputValue(taskDescInput);

@@ -1,15 +1,17 @@
 import {createElementWithAttribute} from "./utils.js"
-import {Task} from "./tasks-logic.js";
-export {createProjectTasksDomList};
+// import {Task} from "./tasks-logic.js";
+export {createProjectTasksDomList, createNewTaskDom, addTaskDomToProjectTasksDomList};
 
-const someTask = new Task('try', 'harder');
-someTask.getTaskTitle
 
 const projectTasksDom = {};
 
 function createProjectTasksDomList(projectName) {
     projectTasksDom[projectName] = [];
 };
+
+function addTaskDomToProjectTasksDomList(projectName, task) {
+    projectTasksDom[projectName].push(task);
+}
 
 function createNewTaskDom(taskObj) {
     const taskContainer = createElementWithAttribute("div", "class", "task-container");
@@ -28,11 +30,11 @@ function createNewTaskDom(taskObj) {
     taskContainerHeaderButton.innerHTML = "X";
     taskContainerHeaderText.innerHTML = taskObj.getTaskTitle();
     setCheckboxInputProperties(taskContainerHeaderCheckbox);
-
-    loadListElementToUlElement(taskContainerContentUl,"taskTitle", taskObj["taskTitle"]);
-    loadListElementToUlElement(taskContainerContentUl,"taskDesc", taskObj["taskDesc"]);
-    loadListElementToUlElement(taskContainerContentUl,"taskDueDate", taskObj["taskDueDate"]);
-    loadListElementToUlElement(taskContainerContentUl,"taskPrior", taskObj["taskPrior"]);
+    console.log(taskObj);
+    loadListElementToUlElement(taskContainerContentUl,"taskTitle", taskObj.getTaskTitle());
+    loadListElementToUlElement(taskContainerContentUl,"taskDesc", taskObj.getTaskDesc());
+    loadListElementToUlElement(taskContainerContentUl,"taskDueDate", taskObj.getTaskDueDate());
+    loadListElementToUlElement(taskContainerContentUl,"taskPrior", taskObj.getTaskPrior());
 
     taskContainerHeaderCheckboxDiv.appendChild(taskContainerHeaderCheckbox);
 

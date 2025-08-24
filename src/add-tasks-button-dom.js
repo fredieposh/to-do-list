@@ -33,7 +33,7 @@ function appendToAddTaskButtonDiv(elementToAppend) {
 };
 
 function handleButtonClick() {
-        addTaskButton.remove
+        addTaskButton.remove();
         addTaskButton.removeEventListener("click", handleButtonClick);
         const addTaskMenuDiv = getAddTaskMenuDiv();
         // clearTaskNameInputValue(); 
