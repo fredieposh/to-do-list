@@ -69,12 +69,19 @@ function addPropertiesToInput() {
 
 function addPropertiesToRadioInput(radioInput,priority) {
     radioInput.setAttribute("type", "radio");
-    radioInput.setAttribute("name", `task-name-${priority}`);
+    radioInput.setAttribute("name", 'task-name-priority');
     radioInput.setAttribute("id", `task-name-${priority}`);
     if (priority === "low") {
         radioInput.checked = true;
     };
 };
+
+function getRadioValue() {
+    const checkedRadioElement = document.querySelector('#add-task-form input[type="radio"]:checked');
+    const checkedRadioElementParent = checkedRadioElement.parentElement;
+    const checkedRadioElementLabelText = checkedRadioElementParent.querySelector("label").innerHTML;
+    return checkedRadioElementLabelText;
+}
 
 function createRadioInputDiv() {
     createRadioInputFieldSet();
@@ -206,7 +213,16 @@ function handleFormSubmmition(e) {
         e.preventDefault();
         addTaskForm.removeEventListener("submit", handleFormSubmmition);
         const selectedProjectName = getSelectedProjectName();
-        const task = new Task(selectedProjectName,getValue(taskNameInput));
+
+        const taskName = getValue(taskNameInput);
+        const taskDesc = getValue(taskDescInput);
+        const taskDate = getValue(taskDateInput);
+        const taskRadio = getRadioValue();
+        const task = new Task(selectedProjectName,taskName);
+        task.setTaskDesc(taskDesc);
+        task.setTaskDueDate(taskDate);
+        task.setTaskPrior(taskRadio);
+        console.log(task);
         addTaskToProjectTasksList(selectedProjectName, task);
         addTaskMenuDiv.remove();
         clearInputValue(taskNameInput);

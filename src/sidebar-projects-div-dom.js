@@ -1,4 +1,5 @@
 import {createElementWithAttribute} from "./utils.js";
+import {createProjectTasksDomList} from "./tasks-dom.js"
 import {setChosenProject, setContentHeaderText} from "./content-dom.js"
 import * as SidebarProjectsDivLogic from "./sidebar-projects-div-logic.js";
 
@@ -108,6 +109,7 @@ function addProjectToList(projectName) {
     newProjectElement.classList.add("project-div-selected");
     projectsContainerDiv.appendChild(newProjectElement);
     SidebarProjectsDivLogic.addProject(projectName);
+    createProjectTasksDomList(projectName);
     addEventListenerToRemoveButtonDiv(newProjectElementRemoveButton, projectName);
     addEventListenerToProjectDiv(newProjectElement);
 
