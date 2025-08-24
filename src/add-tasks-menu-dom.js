@@ -1,5 +1,6 @@
 import {createElementWithAttribute} from "./utils.js";
-import {Task} from "./tasks-logic.js"
+import {Task, addTaskToProjectTasksList} from "./tasks-logic.js"
+import {getSelectedProjectName} from "./sidebar-projects-div-dom.js"
 import {getTaskButtonDiv, appendToAddTaskButtonDiv, getTaskButton, addEventListenerToAddTasktButton} from "./add-tasks-button-dom.js";
 
 export {getAddTaskMenuDiv, createAddTaskMenuDiv, focusTaskNameInputValue, addEventListenerToCancelButton, addEventListenerToForm};
@@ -204,7 +205,9 @@ function handleCancelButtonClick(e) {
 function handleFormSubmmition(e) {
         e.preventDefault();
         addTaskForm.removeEventListener("submit", handleFormSubmmition);
-        
+        const selectedProjectName = getSelectedProjectName();
+        const task = new Task(selectedProjectName,getValue(taskNameInput));
+        addTaskToProjectTasksList(selectedProjectName, task);
         addTaskMenuDiv.remove();
         clearInputValue(taskNameInput);
         clearInputValue(taskDescInput);

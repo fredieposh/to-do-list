@@ -1,9 +1,13 @@
-export {createProjectTasksList, Task};
+export {createProjectTasksList, addTaskToProjectTasksList, Task};
 
 const projectsTasks = {};
 
 function createProjectTasksList(projectName) {
     projectsTasks[projectName] = [];
+}
+
+function addTaskToProjectTasksList(projectName,task) {
+    projectsTasks[projectName].push(task);
 }
 
 class Task {

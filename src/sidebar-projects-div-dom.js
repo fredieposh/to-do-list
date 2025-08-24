@@ -2,7 +2,7 @@ import {createElementWithAttribute} from "./utils.js";
 import {setChosenProject, setContentHeaderText} from "./content-dom.js"
 import * as SidebarProjectsDivLogic from "./sidebar-projects-div-logic.js";
 
-export {addProjectToList, getProjectsDiv, addProjectsHeaderDivToProjectsDiv, addProjectsContainerDivToProjectsDiv};
+export {addProjectToList, getProjectsDiv, addProjectsHeaderDivToProjectsDiv, addProjectsContainerDivToProjectsDiv, getSelectedProjectName};
 
 const projectsDiv = createElementWithAttribute("div", "id", "projects-div");
 const projectsHeaderDiv = createElementWithAttribute("div", "id", "projects-header-div");
