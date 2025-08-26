@@ -1,7 +1,6 @@
 import {createElementWithAttribute} from "./utils.js"
 // import {Task} from "./tasks-logic.js";
-export {createProjectTasksDomList, createNewTaskDom, addTaskDomToProjectTasksDomList};
-
+export {createProjectTasksDomList, createNewTaskDom, addTaskDomToProjectTasksDomList, getDomTasksList};
 
 const projectTasksDom = {};
 
@@ -11,6 +10,10 @@ function createProjectTasksDomList(projectName) {
 
 function addTaskDomToProjectTasksDomList(projectName, task) {
     projectTasksDom[projectName].push(task);
+}
+
+function getDomTasksList(projectName) {
+    return projectTasksDom[projectName];
 }
 
 function createNewTaskDom(taskObj) {

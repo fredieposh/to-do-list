@@ -1,5 +1,6 @@
 import {createElementWithAttribute} from "./utils.js";
-import {createProjectTasksDomList} from "./tasks-dom.js"
+import {createProjectTasksDomList, getDomTasksList, addTaskDomToProjectTasksDomList} from "./tasks-dom.js"
+import {getTaskContainerDiv, appendTaskToaskContainerDiv, clearTaskContainerDiv} from "./tasks-container-dom.js"
 import {setChosenProject, setContentHeaderText} from "./content-dom.js"
 import * as SidebarProjectsDivLogic from "./sidebar-projects-div-logic.js";
 
@@ -72,6 +73,10 @@ function handleProjectChoose() {
     const selectedProjectName = getSelectedProjectName();
     setChosenProject(selectedProjectName);
     setContentHeaderText(selectedProjectName);
+    clearTaskContainerDiv();
+    getDomTasksList(selectedProjectName).forEach((task) => {
+        appendTaskToaskContainerDiv(task);
+    });
 }
 
 function getSelectedProjectName() {

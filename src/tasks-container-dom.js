@@ -1,9 +1,9 @@
-export {createTaskContainerDiv, appendTaskToaskContainerDiv};
+export {getTaskContainerDiv, appendTaskToaskContainerDiv, clearTaskContainerDiv};
 
 import {createElementWithAttribute} from "./utils.js";
 const tasksContainer = createElementWithAttribute("div", "id" ,"tasks-container");
 
-function createTaskContainerDiv(){
+function getTaskContainerDiv(){
     return tasksContainer;
 }
 
