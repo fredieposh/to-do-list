@@ -26,6 +26,11 @@ body {
     display: flex;
 }
 
+button {
+    background-color: transparent;
+    border: none;
+}
+
 #sidebar {
     padding-left: 0.5rem;
     padding-top: 1.5rem;
@@ -323,7 +328,16 @@ fieldset > div {
     display: flex;
     font-size: 0.9rem;
     font-weight: 600;
-    color: #555;
+    color: #666;
+    padding: 0.3rem 0.4rem;
+    border-radius: 10px;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.task-container-header-div:hover {
+    cursor: pointer;
+    background-color: #F1F1F1;
 }
 
 .task-container-header-button-div {
@@ -344,4 +358,33 @@ fieldset > div {
 
 .task-container-content-ul > li {
     list-style-type: none;
+}
+
+.task-container-header-checkbox-div {
+    display: flex;
+    align-items: center;
+}
+input[type="checkbox"] {
+    background-color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
+
+button.task-container-header-button:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.task-container-content-div{
+    display: grid;
+    margin-left: 1.5rem;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s;
+}
+
+.task-container-content-div > ul {
+    overflow: hidden;
+}
+
+.task-container-content-div.clicked{
+    grid-template-rows: 1fr;
 }

@@ -22,10 +22,10 @@ function createNewTaskDom(taskObj) {
     const taskContainerHeaderTextDiv = createElementWithAttribute("div", "class", "task-container-header-text-div");
     const taskContainerHeaderText = createElementWithAttribute("div", "class", "task-container-header-text");
     const taskContainerHeaderButtonDiv = createElementWithAttribute("div", "class", "task-container-header-button-div");
-    const taskContainerHeaderButton = createElementWithAttribute("div", "class", "task-container-header-button");
+    const taskContainerHeaderButton = createElementWithAttribute("button", "class", "task-container-header-button");
 
     const taskContainerContentDiv = createElementWithAttribute("div", "class", "task-container-content-div");
-    const taskContainerContentUl = createElementWithAttribute("div", "class", "task-container-content-ul");
+    const taskContainerContentUl = createElementWithAttribute("ul", "class", "task-container-content-ul");
 
     taskContainerHeaderButton.innerHTML = "X";
     taskContainerHeaderText.innerHTML = taskObj.getTaskTitle();
@@ -51,6 +51,9 @@ function createNewTaskDom(taskObj) {
     taskContainer.appendChild(taskContainerHeaderDiv);
     taskContainer.appendChild(taskContainerContentDiv);
 
+    taskContainerHeaderCheckbox.addEventListener("click", handleCheckBoxClick);
+    taskContainerHeaderButton.addEventListener("click", handleXClick);
+    taskContainerHeaderDiv.addEventListener("click", handleTaskHeaderClick);
     return taskContainer;
 };
 
@@ -94,4 +97,19 @@ function loadListElementToUlElement(ulElement, key, value) {
 
 function setCheckboxInputProperties(checkboxInputElement) {
     checkboxInputElement.setAttribute("type", "checkbox");
+}
+
+function handleTaskHeaderClick(e) {
+    console.log(e.target);
+    this.nextSibling.classList.toggle("clicked");
+}
+
+function handleCheckBoxClick(e) {
+    e.stopPropagation();
+    console.log(e.target);
+}
+
+function handleXClick(e) {
+    e.stopPropagation();
+    console.log(e.target);
 }
