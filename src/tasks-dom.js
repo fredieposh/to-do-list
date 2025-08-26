@@ -57,6 +57,7 @@ function createNewTaskDom(taskObj) {
     taskContainerHeaderCheckbox.addEventListener("click", handleCheckBoxClick);
     taskContainerHeaderButton.addEventListener("click", handleXClick);
     taskContainerHeaderDiv.addEventListener("click", handleTaskHeaderClick);
+    taskContainer.setAttribute("id",`task-id-${taskObj.getTaskId()}`);
     return taskContainer;
 };
 

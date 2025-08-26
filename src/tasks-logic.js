@@ -28,6 +28,10 @@ class Task {
         return this.#projectName;
     };
 
+    setTaskId(newId) {
+        this.#taskId = newId;
+    };
+
     getTaskId() {
         return this.#taskId;
     };
