@@ -1,7 +1,7 @@
 import {createElementWithAttribute} from "./utils.js";
 import {createProjectTasksDomList, getDomTasksList, addTaskDomToProjectTasksDomList} from "./tasks-dom.js"
 import {getTaskContainerDiv, appendTaskToaskContainerDiv, clearTaskContainerDiv} from "./tasks-container-dom.js"
-import {setChosenProject, setContentHeaderText} from "./content-dom.js"
+import {setChosenProject, setContentHeaderText, getChosenProject} from "./content-dom.js"
 import * as SidebarProjectsDivLogic from "./sidebar-projects-div-logic.js";
 
 export {addProjectToList, getProjectsDiv, addProjectsHeaderDivToProjectsDiv, addProjectsContainerDivToProjectsDiv, getSelectedProjectName};
@@ -56,8 +56,15 @@ function createProjectEntry(projectName) {
 
 function addEventListenerToRemoveButtonDiv(RemoveButtonDiv, projectName) {
     RemoveButtonDiv.addEventListener("click", (e) => {
+        e.stopPropagation();
         SidebarProjectsDivLogic.removeProject(projectName);
         e.target.parentNode.parentNode.remove()
+        if(SidebarProjectsDivLogic.projectList.length > 0) {
+            document.querySelector("#projects-container-div .project-div:first-child").classList.add("project-div-selected");
+            handleProjectChoose();
+        } else {
+            handleProjectChoose();
+        };
     });
 };
 
@@ -74,15 +81,16 @@ function handleProjectChoose() {
     setChosenProject(selectedProjectName);
     setContentHeaderText(selectedProjectName);
     clearTaskContainerDiv();
-    getDomTasksList(selectedProjectName).forEach((task) => {
-        appendTaskToaskContainerDiv(task);
-    });
+    if(getDomTasksList(selectedProjectName)) {
+        getDomTasksList(selectedProjectName).forEach((task) => {
+            appendTaskToaskContainerDiv(task);
+        });
+    };
 }
-
 function getSelectedProjectName() {
-    const selectedProjectName = document.querySelector(".project-div-selected .project-name").innerHTML;
+    let selectedProjectName = document.querySelector(".project-div-selected .project-name");
     if (selectedProjectName) {
-        return selectedProjectName;
+        return selectedProjectName.innerHTML;
     }
 
     selectedProjectName = "No Project"

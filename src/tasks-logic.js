@@ -1,4 +1,4 @@
-export {createProjectTasksList, addTaskToProjectTasksList, Task};
+export {createProjectTasksList, addTaskToProjectTasksList, removeTaskFromProjectTasksList, Task};
 
 const projectsTasks = {};
 
@@ -8,6 +8,15 @@ function createProjectTasksList(projectName) {
 
 function addTaskToProjectTasksList(projectName,task) {
     projectsTasks[projectName].push(task);
+}
+
+function removeTaskFromProjectTasksList(projectName, taskIndex) {
+    projectsTasks[projectName].splice(taskIndex,1);
+    orderTasksIndex(projectName);
+}
+
+function orderTasksIndex(projectName) {
+    projectsTasks[projectName].forEach((task, index) => task.setTaskId(index));
 }
 
 class Task {

@@ -1,4 +1,7 @@
 import {createElementWithAttribute} from "./utils.js"
+import {getChosenProject} from "./content-dom.js"
+import {removeTaskFromProjectTasksList} from "./tasks-logic.js";
+import {appendTaskToaskContainerDiv, clearTaskContainerDiv} from "./tasks-container-dom.js"
 // import {Task} from "./tasks-logic.js";
 export {createProjectTasksDomList, createNewTaskDom, addTaskDomToProjectTasksDomList, getDomTasksList};
 
@@ -14,6 +17,19 @@ function addTaskDomToProjectTasksDomList(projectName, task) {
 
 function getDomTasksList(projectName) {
     return projectTasksDom[projectName];
+}
+
+function removeTaskFromProjectTasksDomList(projectName, taskIndex) {
+    projectTasksDom[projectName].splice(taskIndex,1);
+    orderTasksIndex(projectName);
+}
+
+function orderTasksIndex(projectName) {
+    projectTasksDom[projectName].forEach((task, index) => task.setAttribute("id",`task-id-${index}`));
+}
+
+function loadTasksFromProjectTasksDomListToTasksContainer(projectName) {
+    projectTasksDom[projectName].forEach((task) => appendTaskToaskContainerDiv(task));
 }
 
 function createNewTaskDom(taskObj) {
@@ -104,7 +120,6 @@ function setCheckboxInputProperties(checkboxInputElement) {
 }
 
 function handleTaskHeaderClick(e) {
-    console.log(e.target);
     this.nextSibling.classList.toggle("clicked");
 }
 
@@ -115,5 +130,11 @@ function handleCheckBoxClick(e) {
 
 function handleXClick(e) {
     e.stopPropagation();
-    console.log(e.target);
+    const taskContainerId = this.parentNode.parentNode.parentNode.id;
+    const taskContainerIdNumber = /\d+/gi.exec(taskContainerId);
+    const chosenProjectName = getChosenProject();
+    removeTaskFromProjectTasksList(chosenProjectName, taskContainerIdNumber);
+    removeTaskFromProjectTasksDomList(chosenProjectName, taskContainerIdNumber);
+    clearTaskContainerDiv();
+    loadTasksFromProjectTasksDomListToTasksContainer(chosenProjectName);
 }
