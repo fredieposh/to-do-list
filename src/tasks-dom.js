@@ -135,6 +135,16 @@ function handleXClick(e) {
     const chosenProjectName = getChosenProject();
     removeTaskFromProjectTasksList(chosenProjectName, taskContainerIdNumber);
     removeTaskFromProjectTasksDomList(chosenProjectName, taskContainerIdNumber);
+    removeTaskFromLocalStorageProjectList(chosenProjectName, taskContainerIdNumber);
     clearTaskContainerDiv();
     loadTasksFromProjectTasksDomListToTasksContainer(chosenProjectName);
+}
+
+function removeTaskFromLocalStorageProjectList(projectName, taskId) {
+    let loaclStorageProjectTaskListString = localStorage.getItem(projectName);
+    const loaclStorageProjectTaskList = JSON.parse(loaclStorageProjectTaskListString);
+    loaclStorageProjectTaskList.splice(taskId, 1);
+    loaclStorageProjectTaskList.forEach((task, index) => {task.taskId = index});
+    loaclStorageProjectTaskListString = JSON.stringify(loaclStorageProjectTaskList);
+    localStorage.setItem(projectName, loaclStorageProjectTaskListString);
 }

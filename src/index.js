@@ -4,3 +4,4 @@ import {populateContentDiv} from "./content-dom.js";
 
 populateContentDiv();
 loadSidebar();
+console.log(localStorage)

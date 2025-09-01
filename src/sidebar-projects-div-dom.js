@@ -4,7 +4,7 @@ import {getTaskContainerDiv, appendTaskToaskContainerDiv, clearTaskContainerDiv}
 import {setChosenProject, setContentHeaderText, getChosenProject} from "./content-dom.js"
 import * as SidebarProjectsDivLogic from "./sidebar-projects-div-logic.js";
 
-export {addProjectToList, getProjectsDiv, addProjectsHeaderDivToProjectsDiv, addProjectsContainerDivToProjectsDiv, getSelectedProjectName};
+export {addNewProjectToList, getProjectsDiv, addProjectsHeaderDivToProjectsDiv, addProjectsContainerDivToProjectsDiv, getSelectedProjectName, loadProjectToListFromMemory, handleProjectChoose};
 
 const projectsDiv = createElementWithAttribute("div", "id", "projects-div");
 const projectsHeaderDiv = createElementWithAttribute("div", "id", "projects-header-div");
@@ -65,6 +65,8 @@ function addEventListenerToRemoveButtonDiv(RemoveButtonDiv, projectName) {
         } else {
             handleProjectChoose();
         };
+
+        localStorage.removeItem(projectName);
     });
 };
 
@@ -106,10 +108,18 @@ function removeSelectedClassFromProjectDiv() {
     });
 };
 
-function addProjectToList(projectName) {
-    if (SidebarProjectsDivLogic.projectList.length > 0) {
+function addNewProjectToList(projectName) {
+    
+    if (SidebarProjectsDivLogic.projectList.length > 0 || localStorage.length > 0) {
         for (const project of SidebarProjectsDivLogic.projectList) {
             if (projectName === project) {
+                return;
+            };
+        };
+        for (let i = 0; i < localStorage.length; i++) {
+            const storageProjectName = localStorage.key(i);
+            if (storageProjectName === projectName) {
+                console.log(`function stuck here because ${localStorage.key(i)} === ${projectName}`);
                 return;
             };
         };
@@ -117,6 +127,7 @@ function addProjectToList(projectName) {
 
 
     const {newProjectElement, newProjectElementRemoveButton} = createProjectEntry(projectName);
+    localStorage.setItem(projectName, JSON.stringify(new Array()));
     removeSelectedClassFromProjectDiv();
     newProjectElement.classList.add("project-div-selected");
     projectsContainerDiv.appendChild(newProjectElement);
@@ -127,3 +138,12 @@ function addProjectToList(projectName) {
 
     handleProjectChoose();
 };
+
+function loadProjectToListFromMemory(projectName) {
+    const {newProjectElement, newProjectElementRemoveButton} = createProjectEntry(projectName);
+    projectsContainerDiv.appendChild(newProjectElement);
+    SidebarProjectsDivLogic.addProject(projectName);
+    createProjectTasksDomList(projectName);
+    addEventListenerToRemoveButtonDiv(newProjectElementRemoveButton, projectName);
+    addEventListenerToProjectDiv(newProjectElement);
+}

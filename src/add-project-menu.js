@@ -1,6 +1,6 @@
 import {createElementWithAttribute} from "./utils.js";
 import {getAddProjectButtonDiv, addEventListenerToAddProjectButtonDiv} from "./add-project-button-sidebar-div-dom";
-import {addProjectToList} from "./sidebar-projects-div-dom.js";
+import {addNewProjectToList} from "./sidebar-projects-div-dom.js";
 import {createProjectTasksList} from "./tasks-logic.js";
 import {appendToSidebar} from "./sidebar.js";
 export {createAddProjectMenuDiv, getAddProjectMenuDiv, addEventListenerToCancelButton, addEventListenerToForm, clearProjectNameInputValue, focusProjectNameInputValue};
@@ -99,7 +99,7 @@ function handleCancelButtonClick(e) {
 function handleFormSubmition(e) {
         e.preventDefault();
         const formInputValue = getProjectNameInputValue();
-        addProjectToList(formInputValue);
+        addNewProjectToList(formInputValue);
         addProjectForm.removeEventListener("submit", handleFormSubmition);
         addProjectMenuDiv.remove();
         const addProjectButtonDiv = getAddProjectButtonDiv();

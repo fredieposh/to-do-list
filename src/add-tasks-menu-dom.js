@@ -1,11 +1,11 @@
-import {createElementWithAttribute} from "./utils.js";
+import {createElementWithAttribute, GetTaskExplicitObject, addTaskExplicitObjectToList} from "./utils.js";
 import {Task, addTaskToProjectTasksList} from "./tasks-logic.js"
 import {appendTaskToaskContainerDiv} from "./tasks-container-dom.js"
 import {createNewTaskDom, addTaskDomToProjectTasksDomList} from "./tasks-dom.js";
 import {getSelectedProjectName} from "./sidebar-projects-div-dom.js"
 import {getTaskButtonDiv, appendToAddTaskButtonDiv, getTaskButton, addEventListenerToAddTasktButton} from "./add-tasks-button-dom.js";
 
-export {getAddTaskMenuDiv, createAddTaskMenuDiv, focusTaskNameInputValue, addEventListenerToCancelButton, addEventListenerToForm};
+export {getAddTaskMenuDiv, createAddTaskMenuDiv, focusTaskNameInputValue, addEventListenerToCancelButton, addEventListenerToForm, loadTasksToProjectFromMemory};
 
 const addTaskMenuDiv = createElementWithAttribute("div","id", "add-tasks-menu-div");
 const addTaskForm = createElementWithAttribute("form","id", "add-task-form");
@@ -226,6 +226,12 @@ function handleFormSubmmition(e) {
         task.setTaskPrior(taskRadio);        
         addTaskToProjectTasksList(selectedProjectName, task);
 
+        const taskExplicitObj = GetTaskExplicitObject(selectedProjectName, taskName, taskDesc, taskDate, taskRadio);
+        taskExplicitObj["taskId"] = task.getTaskId();
+        console.log(taskExplicitObj);
+        localStorage.setItem(selectedProjectName,addTaskExplicitObjectToList(selectedProjectName, taskExplicitObj));
+
+
         const taskDom = createNewTaskDom(task);
         addTaskDomToProjectTasksDomList(selectedProjectName, taskDom);
         appendTaskToaskContainerDiv(taskDom);
@@ -238,6 +244,22 @@ function handleFormSubmmition(e) {
         appendToAddTaskButtonDiv(addTaskButton);
         addEventListenerToAddTasktButton();
 };
+
+function loadTasksToProjectFromMemory(projectName, tasksStringArray) {
+    const tasksArray = JSON.parse(tasksStringArray);
+    tasksArray.forEach(taskExplicitObj => {
+        const task = new Task(taskExplicitObj.selectedProjectName, taskExplicitObj.taskName);
+        task.setTaskDesc(taskExplicitObj.taskDesc);
+        task.setTaskDueDate(taskExplicitObj.taskDate);
+        task.setTaskPrior(taskExplicitObj.taskRadio);        
+        addTaskToProjectTasksList(projectName, task);
+
+        const taskDom = createNewTaskDom(task);
+        addTaskDomToProjectTasksDomList(projectName, taskDom);
+        appendTaskToaskContainerDiv(taskDom);
+    })
+
+}
 
 function addEventListenerToCancelButton() {
     addTaskMenuCancelButton.addEventListener("click", handleCancelButtonClick);
